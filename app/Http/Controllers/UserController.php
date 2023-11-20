@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Http\Middleware\Authenticate;
 use App\Models\User;
+use App\Http\Requests\SeekerRegistrationRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -13,8 +16,10 @@ class UserController extends Controller
         return view('users.seeker-register');
     }
 
-    public function storeSeeker()
+    public function storeSeeker(SeekerRegistrationRequest $request)
     {
+
+
         User::create([
             'name' => request('name'),
             'email' => request('email'),
@@ -22,5 +27,28 @@ class UserController extends Controller
             'user_type'=> self::JOB_SEEKER,
         ]); 
         return back();
+    }
+
+    public function login()
+    {
+        return view('users.login');
+    }
+
+    public function postLogin(Request $request)
+    {
+        $request -> validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        $credentials = $request->only('email', 'password');
+        if(Auth::attempt($credentials)){
+            return redirect() -> intended('dashboard');
+        }
+        return 'Wrong Email or Password'; 
+    }
+
+    public function logout(){
+        auth()->logout();
+        return redirect()->route('login');
     }
 }
