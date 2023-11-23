@@ -33,7 +33,7 @@
           <a class="nav-link" href="{{route('create.seeker')}}">Job Seeker</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Employer</a>
+          <a class="nav-link" href="{{route('create.employer')}}" tabindex="-1" aria-disabled="true">Employer</a>
         </li>
         @endif
         @if(Auth::check())
