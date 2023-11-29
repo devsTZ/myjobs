@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,4 +32,6 @@ Route::post('/login', [UserController:: class,'postLogin'])->name('login.post');
 
 Route::post('/logout', [UserController:: class,'logout'])->name('logout');
 
-Route::get('/dashboard', [DashboardController:: class,'index'])->name('dashboard')->middleware('auth');
+Route::get('/dashboard', [DashboardController:: class,'index'])->Middleware('verified')->name('dashboard')->middleware('auth');
+
+Route::get('/verify', [DashboardController:: class,'verify'])-> name('verification.notice');
